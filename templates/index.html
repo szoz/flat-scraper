@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Flat scraper results</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+</head>
+<body>
+  <div class="container">
+    {% for offer in offers %}
+      <div class="card">
+        <div class="card-header">
+          {{offer._id}}
+        </div>
+        <div class="card-body">
+          <h5 class="card-title"><a href="{{offer.url}}">{{offer.title}}</a></h5>
+          <p class="card-text">{{offer.characteristics}}</p>
+          <p class="card-text"></p>
+          <p class="card-text">{{offer.features}}</p>
+          <p class="card-text">{{offer.date_created}}</p>
+          <p class="card-text">{{offer.price}}</p>
+          <p class="card-text">
+            <a href="https://www.google.com/maps/place/{{offer.coordinates}}">{{offer.address}}</a>
+          </p>
+          {% for photo in offer.photos %}
+          <a href="{{photo.1}}"><img class="mr-3" src="{{photo.0}}" alt="photo"></a>
+          {% endfor %}
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+</body>
+</html>
