@@ -5,22 +5,53 @@
   <title>Flat scraper results</title>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
         integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 </head>
 <body>
   <div class="container">
     {% for offer in offers %}
       <div class="card">
         <div class="card-header">
-          {{offer._id}}
+          <h5 class="card-title">{{offer._id}} <a href="{{offer.url}}">{{offer.title}}</a></h5>
         </div>
         <div class="card-body">
-          <h5 class="card-title"><a href="{{offer.url}}">{{offer.title}}</a></h5>
-          <p class="card-text">{{offer.characteristics}}</p>
-          <p class="card-text"></p>
-          <p class="card-text">{{offer.features}}</p>
-          <p class="card-text">{{offer.date_created}}</p>
+          <table class="table table-borderless">
+            <tr>
+              <th scope="col">
+                <p class="card-text"><i class="material-icons">aspect_ratio</i>{{offer.characteristics.m}}</p>
+              </th>
+              <th scope="col">
+                <p class="card-text"><i class="material-icons">view_quilt</i>{{offer.characteristics.rooms_num}}</p>
+              </th>
+              <th scope="col">
+                <p class="card-text"><i class="material-icons">domain</i>{{offer.characteristics.building_type}}</p>
+              </th>
+              <th scope="col">
+                <p class="card-text"><i class="material-icons">repeat</i>{{offer.characteristics.market}}</p>
+              </th>
+              <th scope="col">
+                <p class="card-text"><i class="material-icons">date_range</i>{{offer.characteristics.build_year}}</p>
+              </th>
+              <th scope="col">
+                <p class="card-text"><i class="material-icons">money</i>{{offer.characteristics.rent}}</p>
+              </th>
+              <th scope="col">
+                <p class="card-text"><i class="material-icons">layers</i>
+                {{offer.characteristics.floor_no}} / {{offer.characteristics.building_floors_num}}
+                </p>
+              </th>
+            </tr>
+          </table>
+          <p class="card-text">
+            {% for feature in offer.features %}
+            <span class="badge badge-secondary">{{feature}}</span>
+            {% endfor %}
+          </p>
+          <p class="card-text"><i class="material-icons">add_circle_outline</i>{{offer.date_created}}</p>
+          <p class="card-text"><i class="material-icons">refresh</i>{{offer.date_created}}</p>
           <p class="card-text">{{offer.price}}</p>
           <p class="card-text">
+            <i class="material-icons">room</i>
             <a href="https://www.google.com/maps/place/{{offer.coordinates}}">{{offer.address}}</a>
           </p>
           {% for photo in offer.photos %}
@@ -30,5 +61,8 @@
       </div>
     {% endfor %}
   </div>
+  <script>
+    $('#example').tooltip(options)
+  </script>
 </body>
 </html>
