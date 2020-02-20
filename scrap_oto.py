@@ -1,4 +1,5 @@
 from requests_html import HTMLSession
+import requests
 from urllib import parse
 import re
 
@@ -73,6 +74,11 @@ def get_ids(urls):
         id_num = re.search(id_pattern, title).group(0)[1:-1]
         identifiers.append(id_num)
     return identifiers
+
+
+def get_response(identifier):
+    r = requests.get(f'https://www.otodom.pl/frontera/api/item/{identifier}')
+    return r.json()
 
 
 if __name__ == '__main__':

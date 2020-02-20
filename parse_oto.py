@@ -12,16 +12,17 @@ def parse_response(resp):
     filter_only = ['url', 'title', 'description', 'features', 'status']
     parsed_resp = {key: val for key, val in resp.items() if key in filter_only}
 
-    timestamp = datetime.now().isoformat()
+    timestamp = datetime.now().isoformat(timespec='minutes')
     parsed_resp['date_created'] = {timestamp: resp['dateCrated']}
     parsed_resp['date_modified'] = {timestamp: resp['dateModified']}
     parsed_resp['price'] = {timestamp: resp['price']['value']}
     parsed_resp['price_pm'] = {timestamp: resp['areaPrice']['value']}
 
+    parsed_resp['_id'] = resp['id']
     parsed_resp['address'] = resp['addresses']['pl']
     parsed_resp['coordinates'] = f"{resp['coordinates']['latitude']}+{resp['coordinates']['longitude']}"
-    parsed_resp['characteristics'] = {char['label']: char['value_translated'] for char in resp['characteristics']}
-    parsed_resp['photos'] = [photo['thumbnail'] for photo in resp['photos'].values()]
+    parsed_resp['characteristics'] = {char['key']: char['value_translated'] for char in resp['characteristics']}
+    parsed_resp['photos'] = [(photo['thumbnail'], photo['large']) for photo in resp['photos'].values()]
 
     return parsed_resp
 
