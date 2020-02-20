@@ -10,15 +10,16 @@ def create_flat(data):
     return collection.insert_one(data)
 
 
-def read_all_flats(limit=0, skip=0):
+def read_all_flats(limit=0, page=0):
     """Reads all flats records from DB collection."""
+    skip = limit * (page - 1)
     return list(collection.find(limit=limit, skip=skip))
 
 
 def read_flat(flat_id):
     """Reads flat record with given ID."""
     parameters = {'_id': flat_id}
-    return collection.find_one(parameters)
+    return [collection.find_one(parameters)]
 
 
 def delete_flat(flat_id):
