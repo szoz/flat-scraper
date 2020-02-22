@@ -7,6 +7,8 @@ collection = db['offersoto']
 
 def create_flat(data):
     """Inserts given flat data into DB collection."""
+    if collection.find_one({'_id': data['_id']}):
+        return collection.update({'_id': data['_id']}, {"$addToSet": {'time_relevant': data['time_relevant'][0]}})
     return collection.insert_one(data)
 
 

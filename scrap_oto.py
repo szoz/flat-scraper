@@ -19,13 +19,15 @@ def get_search_url(page=None, **kwargs):
         'wola': 117
     }
     search_params = {
-        'search[filter_float_m:from]': 50,
-        'search[filter_float_m:to]': 65,
-        'search[filter_enum_rooms_num][0]': 3,
+        'search[filter_float_m:from]': 40,
+        'search[filter_float_m:to]': 60,
+        'search[filter_enum_rooms_num][0]': 2,
+        'search[filter_enum_rooms_num][1]': 3,
         'search[filter_float_build_year:from]': 2000,
         'search[filter_float_build_year:to]': 2019,
+        'search[filter_float_price:to]': 600000,
         'search[description]': 1,
-        'nrAdsPerPage': '72',
+        'nrAdsPerPage': 72,
     }
 
     for index, district in enumerate(search_districts.values()):

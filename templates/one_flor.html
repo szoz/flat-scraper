@@ -3,19 +3,23 @@
 <table class="table">
   <thead>
     <tr>
-      <th></th>
+      <th><i class="material-icons">calendar_today</i></th>
       <th><i class="material-icons">attach_money</i></th>
+      <th><i class="material-icons">attach_money</i><i class="material-icons">square_foot</i></th>
       <th><i class="material-icons">add_circle_outline</i></th>
       <th><i class="material-icons">refresh</i></th>
     </tr>
   </thead>
   <tbody>
+    {% for record in offer.time_relevant %}
     <tr>
-      <th scope="row">{{ offer.price.keys() | list | last }}</th>
-      <td> {{ offer.price.values() | list | last | format_price }}</td>
-      <td> {{ offer.date_created.values() | list | last }}</td>
-      <td> {{ offer.date_created.values() | max }}</td>
+      <th scope="row">{{ record.0 }}</th>
+      <th scope="row">{{ record.1 | format_price }}</th>
+      <td> {{ record.2 | format_price }}</td>
+      <td> {{ record.3 }}</td>
+      <td> {{ record.4 }}</td>
     </tr>
+    {% endfor %}
   </tbody>
 </table>
 {% endblock %}
