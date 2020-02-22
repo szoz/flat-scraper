@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block statistics %}
+<table class="table table-borderless">
+  <tbody>
+    <tr>
+      <th scope="row"><i class="material-icons">attach_money</i>{{ offer.price.values() | list | last | format_price }}</th>
+      <td><i class="material-icons">add_circle_outline</i> {{ offer.date_created.values() | list | last }}</td>
+      <td class="align-middle"><i class="material-icons">refresh</i> {{ offer.date_created.values() | max }}</td>
+    </tr>
+  </tbody>
+</table>
+{% endblock %}

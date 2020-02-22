@@ -10,9 +10,12 @@
 <body>
   <div class="container">
     {% for offer in offers %}
-      <div class="card">
+      <div class="card m-3">
         <div class="card-header">
-          <h5 class="card-title">{{offer._id}} <a href="{{offer.url}}">{{offer.title}}</a></h5>
+          <h5 class="card-title">
+            <a href="{{ url_for('show_flat', flat_id=offer._id) }}">{{offer._id}}</a>
+            <a href="{{offer.url}}">{{offer.title}}</a>
+          </h5>
         </div>
         <div class="card-body">
           <table class="table table-borderless">
@@ -42,14 +45,13 @@
               </th>
             </tr>
           </table>
+          {% block statistics scoped %}
+          {% endblock %}
           <p class="card-text">
             {% for feature in offer.features %}
-            <span class="badge badge-secondary">{{feature}}</span>
+              <span class="badge badge-secondary">{{feature}}</span>
             {% endfor %}
           </p>
-          <p class="card-text"><i class="material-icons">add_circle_outline</i>{{offer.date_created}}</p>
-          <p class="card-text"><i class="material-icons">refresh</i>{{offer.date_created}}</p>
-          <p class="card-text">{{offer.price}}</p>
           <p class="card-text">
             <i class="material-icons">room</i>
             <a href="https://www.google.com/maps/place/{{offer.coordinates}}">{{offer.address}}</a>
