@@ -10,38 +10,52 @@
 <body>
   <div class="container">
     {% for offer in offers %}
-      <div class="card m-3">
-        <div class="card-header">
-          <h5 class="card-title">
-            <a href="{{ url_for('show_flat', flat_id=offer._id) }}">{{offer._id}}</a>
-            <a href="{{offer.url}}">{{offer.title}}</a>
+      <div class="card m-4">
+        <div class="card-header d-flex justify-content-between align-items-center">
+          <h5 class="card-title m-0">
+            <a href="{{ offer.url }}" class="btn btn-primary" role="button" target="_blank">{{ offer._id }}</a>
+            <a href="{{ url_for('show_flat', flat_id=offer._id) }}" target="_blank">{{ offer.title }}</a>
           </h5>
+          {% block buttons scoped %}
+          {% endblock %}
         </div>
         <div class="card-body">
           <table class="table table-borderless">
             <tr>
               <th scope="col">
-                <p class="card-text"><i class="material-icons">aspect_ratio</i>{{offer.characteristics.m}}</p>
+                <div class="card-text d-flex">
+                  <i class="material-icons mr-2">aspect_ratio</i>{{ offer.characteristics.m }}
+                </div>
               </th>
               <th scope="col">
-                <p class="card-text"><i class="material-icons">view_quilt</i>{{offer.characteristics.rooms_num}}</p>
+                <div class="card-text d-flex">
+                  <i class="material-icons mr-2">view_quilt</i>{{ offer.characteristics.rooms_num }}
+                </div>
               </th>
               <th scope="col">
-                <p class="card-text"><i class="material-icons">domain</i>{{offer.characteristics.building_type}}</p>
+                <div class="card-text d-flex">
+                  <i class="material-icons mr-2">domain</i>{{ offer.characteristics.building_type }}
+                </div>
               </th>
               <th scope="col">
-                <p class="card-text"><i class="material-icons">repeat</i>{{offer.characteristics.market}}</p>
+                <div class="card-text d-flex">
+                  <i class="material-icons mr-2">repeat</i>{{ offer.characteristics.market }}
+                </div>
               </th>
               <th scope="col">
-                <p class="card-text"><i class="material-icons">date_range</i>{{offer.characteristics.build_year}}</p>
+                <div class="card-text d-flex">
+                  <i class="material-icons mr-2">date_range</i>{{ offer.characteristics.build_year }}
+                </div>
               </th>
               <th scope="col">
-                <p class="card-text"><i class="material-icons">money</i>{{offer.characteristics.rent}}</p>
+                <div class="card-text d-flex">
+                  <i class="material-icons mr-2">money</i>{{ offer.characteristics.rent }}
+                </div>
               </th>
               <th scope="col">
-                <p class="card-text"><i class="material-icons">layers</i>
-                {{offer.characteristics.floor_no}} / {{offer.characteristics.building_floors_num}}
-                </p>
+                <div class="card-text d-flex"><i class="material-icons mr-2">layers</i>
+                {{ offer.characteristics.floor_no }} / {{ offer.characteristics.building_floors_num }}
+                </div>
               </th>
             </tr>
           </table>
@@ -49,22 +63,19 @@
           {% endblock %}
           <p class="card-text">
             {% for feature in offer.features %}
-              <span class="badge badge-secondary">{{feature}}</span>
+              <span class="badge badge-secondary">{{ feature }}</span>
             {% endfor %}
           </p>
-          <p class="card-text">
-            <i class="material-icons">room</i>
-            <a href="https://www.google.com/maps/place/{{offer.coordinates}}">{{offer.address}}</a>
+          <p class="card-text d-flex">
+            <i class="material-icons mr-2">room</i>
+            <a href="https://www.google.com/maps/place/{{ offer.coordinates }}" target="_blank">{{ offer.address }}</a>
           </p>
           {% for photo in offer.photos %}
-          <a href="{{photo.1}}"><img class="mr-3" src="{{photo.0}}" alt="photo"></a>
+          <a href="{{ photo.1 }}" target="_blank"><img class="mr-3" src="{{ photo.0 }}" alt="photo"></a>
           {% endfor %}
         </div>
       </div>
     {% endfor %}
   </div>
-  <script>
-    $('#example').tooltip(options)
-  </script>
 </body>
 </html>

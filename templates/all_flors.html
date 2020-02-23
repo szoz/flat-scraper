@@ -3,10 +3,27 @@
 <table class="table table-borderless">
   <tbody>
     <tr>
-      <th scope="row"><i class="material-icons">attach_money</i>{{ offer.time_relevant[-1][1] | format_price }}</th>
-      <th><i class="material-icons">attach_money</i><i class="material-icons">square_foot</i>{{ offer.time_relevant[-1][2] | format_price }}</th>
-      <td><i class="material-icons">add_circle_outline</i> {{ offer.time_relevant[-1][3] }}</td>
-      <td class="align-middle"><i class="material-icons">refresh</i> {{ offer.time_relevant[-1][4] }}</td>
+      <th scope="row">
+        <div class="d-flex">
+          <i class="material-icons mr-2">attach_money</i>{{ offer.time_relevant[-1][1] | format_price }}
+        </div>
+      </th>
+      <th>
+        <div class="d-flex">
+          <i class="material-icons">attach_money</i>
+          <i class="material-icons mr-2">square_foot</i>{{ offer.time_relevant[-1][2] | format_price }}
+        </div>
+      </th>
+      <td>
+        <div class="d-flex">
+          <i class="material-icons mr-2">add_circle_outline</i> {{ offer.time_relevant[-1][3] }}
+        </div>
+      </td>
+      <td>
+        <div class="d-flex">
+          <i class="material-icons mr-2">refresh</i> {{ offer.time_relevant[-1][4] }}
+        </div>
+      </td>
     </tr>
   </tbody>
 </table>
