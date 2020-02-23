@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Flat scraper results</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+</head>
+<body>
+  <div class="container">
+    {% for offer in offers %}
+      <div class="card m-4">
+        <div class="card-header d-flex justify-content-between align-items-center">
+          <h5 class="card-title m-0">
+            <a href="{{ offer.url }}" class="btn btn-primary" role="button" target="_blank">{{ offer._id }}</a>
+            <a href="{{ url_for('show_flat', flat_id=offer._id) }}" target="_blank">{{ offer.title }}</a>
+          </h5>
+        </div>
+        <div class="card-body">
+          <table class="table table-borderless">
+            <tr>
+              <th scope="col">
+                <div class="card-text d-flex">
+                  <i class="material-icons mr-2">aspect_ratio</i>{{ offer.characteristics.m }}
+                </div>
+              </th>
+              <th scope="col">
+                <div class="card-text d-flex">
+                  <i class="material-icons mr-2">view_quilt</i>{{ offer.characteristics.rooms_num }}
+                </div>
+              </th>
+              <th scope="col">
+                <div class="card-text d-flex">
+                  <i class="material-icons mr-2">domain</i>{{ offer.characteristics.building_type }}
+                </div>
+              </th>
+              <th scope="col">
+                <div class="card-text d-flex">
+                  <i class="material-icons mr-2">repeat</i>{{ offer.characteristics.market }}
+                </div>
+              </th>
+              <th scope="col">
+                <div class="card-text d-flex">
+                  <i class="material-icons mr-2">date_range</i>{{ offer.characteristics.build_year }}
+                </div>
+              </th>
+              <th scope="col">
+                <div class="card-text d-flex">
+                  <i class="material-icons mr-2">money</i>{{ offer.characteristics.rent }}
+                </div>
+              </th>
+              <th scope="col">
+                <div class="card-text d-flex"><i class="material-icons mr-2">layers</i>
+                {{ offer.characteristics.floor_no }} / {{ offer.characteristics.building_floors_num }}
+                </div>
+              </th>
+            </tr>
+          </table>
+          {% block statistics scoped %}
+          {% endblock %}
+          <p class="card-text">
+            {% for feature in offer.features %}
+              <span class="badge badge-secondary">{{ feature }}</span>
+            {% endfor %}
+          </p>
+          <p class="card-text d-flex">
+            <i class="material-icons mr-2">room</i>
+            <a href="https://www.google.com/maps/place/{{ offer.coordinates }}" target="_blank">{{ offer.address }}</a>
+          </p>
+          {% for photo in offer.photos %}
+          <a href="{{ photo.1 }}" target="_blank"><img class="mr-3" src="{{ photo.0 }}" alt="photo"></a>
+          {% endfor %}
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+  {% block footer scoped %}
+  {% endblock %}
+</body>
+</html>
