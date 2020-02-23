@@ -16,8 +16,6 @@
             <a href="{{ offer.url }}" class="btn btn-primary" role="button" target="_blank">{{ offer._id }}</a>
             <a href="{{ url_for('show_flat', flat_id=offer._id) }}" target="_blank">{{ offer.title }}</a>
           </h5>
-          {% block buttons scoped %}
-          {% endblock %}
         </div>
         <div class="card-body">
           <table class="table table-borderless">
@@ -77,5 +75,7 @@
       </div>
     {% endfor %}
   </div>
+  {% block footer scoped %}
+  {% endblock %}
 </body>
 </html>

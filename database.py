@@ -18,6 +18,11 @@ def read_all_flats(limit=0, page=0):
     return list(collection.find(limit=limit, skip=skip))
 
 
+def get_flat_count():
+    """Returns number of all flats in DB collection."""
+    return collection.count()
+
+
 def read_flat(flat_id):
     """Reads flat record with given ID."""
     parameters = {'_id': flat_id}

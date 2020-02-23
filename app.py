@@ -1,6 +1,6 @@
-from flask import Flask, render_template, redirect
+from flask import Flask, render_template, redirect, abort
 
-from database import read_all_flats, read_flat
+from database import read_all_flats, read_flat, get_flat_count
 
 app = Flask(__name__)
 
@@ -17,10 +17,14 @@ def index():
 
 
 @app.route('/<int:page_num>')
-def show_all_flats(page_num):
-    """Shows all flat records - 10 per page."""
+def show_all_flats(page_num, flats_per_page=20):
+    """Shows all flat records with pagination"""
+    last_page = get_flat_count() // flats_per_page + 1
+    if page_num < 1 or page_num > last_page:
+        return abort(404)
+    pages = {'current': page_num, 'last': last_page}
     return render_template('all_flors.html',
-                           offers=read_all_flats(10, page_num))
+                           offers=read_all_flats(flats_per_page, page_num), pages=pages)
 
 
 @app.route('/id/<int:flat_id>')

@@ -28,3 +28,28 @@
   </tbody>
 </table>
 {% endblock %}
+{% block footer %}
+  <nav aria-label="page-pagination">
+    <ul class="pagination justify-content-center">
+      {% if pages.current == 1 %}
+        <li class="page-item disabled">
+          <a class="page-link" href="{{ pages.current - 1 }}" tabindex="-1">Poprzednia</a>
+        </li>
+      {% else %}
+        <li class="page-item"><a class="page-link" href="{{ pages.current - 1 }}" tabindex="-1">Poprzednia</a></li>
+        <li class="page-item"><a class="page-link" href="{{ pages.current - 1 }}">{{ pages.current - 1 }}</a></li>
+      {% endif %}
+        <li class="page-item active">
+          <a class="page-link" href="{{ pages.current }}">{{ pages.current }}<span class="sr-only">(current)</span></a>
+        </li>
+      {% if pages.current == pages.last %}
+        <li class="page-item disabled">
+          <a class="page-link" href="{{ pages.current + 1 }}" tabindex="-1">Następna</a>
+        </li>
+      {% else %}
+        <li class="page-item"><a class="page-link" href="{{ pages.current + 1 }}">{{ pages.current + 1 }}</a></li>
+        <li class="page-item"><a class="page-link" href="{{ pages.current + 1 }}">Następna</a></li>
+      {% endif %}
+    </ul>
+  </nav>
+{% endblock %}
