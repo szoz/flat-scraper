@@ -1,4 +1,4 @@
-from flask import Flask, render_template, redirect, abort
+from flask import Flask, render_template, redirect, abort, request
 
 from database import read_all_flats, read_flat, get_flat_count
 
@@ -27,7 +27,7 @@ def show_all_flats(page_num, flats_per_page=20):
         return abort(404)
     pages = {'current': page_num, 'last': last_page}
     return render_template('all_flors.html',
-                           offers=read_all_flats(flats_per_page, page_num), pages=pages)
+                           offers=read_all_flats(flats_per_page, page_num, request.args.get('sort')), pages=pages)
 
 
 @app.route('/id/<int:flat_id>')
@@ -36,7 +36,7 @@ def show_flat(flat_id):
     record = read_flat(flat_id)
     timestamped = ('scraped_date', 'price', 'price_pm', 'added_date', 'updated_date')
     return render_template('one_flor.html',
-                           offers=record, timestamped=zip(record[0][ts] for ts in timestamped))
+                           offers=record, timestamped=zip(*(record[0][ts] for ts in timestamped)))
 
 
 if __name__ == '__main__':

@@ -25,7 +25,7 @@ def get_search_url(page=None, **kwargs):
         'search[filter_enum_rooms_num][1]': 3,
         'search[filter_float_build_year:from]': 2000,
         'search[filter_float_build_year:to]': 2019,
-        'search[filter_float_price:to]': 600000,
+        'search[filter_float_price:to]': 650000,
         'search[description]': 1,
         'nrAdsPerPage': 72,
     }

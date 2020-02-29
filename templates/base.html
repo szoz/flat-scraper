@@ -8,6 +8,19 @@
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 </head>
 <body>
+<nav class="navbar navbar-expand-sm bg-primary navbar-dark">
+  <ul class="navbar-nav">
+    <li class="nav-item active">
+      <a class="nav-link" href="{{ url_for('show_all_flats', page_num=1) }}">Otodom oferty</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="{{ url_for('show_all_flats', page_num=1, sort='added') }}">Sortuj po dacie dodania</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="{{ url_for('show_all_flats', page_num=1, sort='updated') }}">Sortuj po dacie aktualizacji</a>
+    </li>
+  </ul>
+</nav>
   <div class="container">
     {% for offer in offers %}
       <div class="card m-4">
