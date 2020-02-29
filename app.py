@@ -8,7 +8,10 @@ app = Flask(__name__)
 @app.template_filter()
 def format_price(price):
     """Returns formatted price value."""
-    return f'{float(price):,.0f} zł'.replace(',', ' ')
+    if price:
+        return f'{float(price):,.0f} zł'.replace(',', ' ')
+    return '???'
+
 
 @app.route('/')
 def index():
@@ -30,8 +33,10 @@ def show_all_flats(page_num, flats_per_page=20):
 @app.route('/id/<int:flat_id>')
 def show_flat(flat_id):
     """Shows one flat record with given flat_id."""
+    record = read_flat(flat_id)
+    timestamped = ('scraped_date', 'price', 'price_pm', 'added_date', 'updated_date')
     return render_template('one_flor.html',
-                           offers=read_flat(flat_id))
+                           offers=record, timestamped=zip(record[0][ts] for ts in timestamped))
 
 
 if __name__ == '__main__':

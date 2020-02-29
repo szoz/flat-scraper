@@ -1,4 +1,4 @@
-from pymongo import MongoClient
+from pymongo import MongoClient, DESCENDING
 
 client = MongoClient()
 db = client['flat_base']
@@ -15,7 +15,7 @@ def create_flat(data):
 def read_all_flats(limit=0, page=0):
     """Reads all flats records from DB collection."""
     skip = limit * (page - 1)
-    return list(collection.find(limit=limit, skip=skip))
+    return collection.find(limit=limit, skip=skip).sort('updated_date', DESCENDING)
 
 
 def get_flat_count():
