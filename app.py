@@ -1,6 +1,6 @@
 from flask import Flask, render_template, redirect, abort, request
 
-from database import read_all_flats, read_flat, get_flat_count
+from database import read_all_flats, read_flat, get_flat_count, delete_flat
 
 app = Flask(__name__)
 
@@ -24,11 +24,11 @@ def show_all_flats(page_num, flats_per_page=20):
     """Shows all flat records with pagination"""
     last_page = get_flat_count() // flats_per_page + 1
     if page_num < 1 or page_num > last_page:
-        return abort(404)
-    pages = {'current': page_num, 'last': last_page}
+        return abort(404)  # TODO fix pycharm warnings - read about flask support
+    pages = {'current': page_num, 'last': last_page}  # TODO reformat functions
     return render_template('all_flors.html',
                            offers=read_all_flats(flats_per_page, page_num, request.args.get('sort')), pages=pages)
-
+# TODO fix error page when flat id is incorrect
 
 @app.route('/id/<int:flat_id>')
 def show_flat(flat_id):
@@ -37,6 +37,13 @@ def show_flat(flat_id):
     timestamped = ('scraped_date', 'price', 'price_pm', 'added_date', 'updated_date')
     return render_template('one_flor.html',
                            offers=record, timestamped=zip(*(record[0][ts] for ts in timestamped)))
+
+
+@app.route('/delete/<int:flat_id>')
+def remove_flat(flat_id):
+    """Deletes one flat record with given flat_id."""
+    delete_flat(flat_id)
+    return '', 204
 
 
 if __name__ == '__main__':
