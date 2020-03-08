@@ -1,17 +1,8 @@
-{% extends "base.html" %}
-{% block statistics %}
+{% extends "all_flors.html" %}
+{% block history %}
 <table class="table table-sm">
-  <thead>
-    <tr>
-      <th><i class="material-icons">calendar_today</i></th>
-      <th><i class="material-icons">attach_money</i></th>
-      <th><i class="material-icons">attach_money</i><i class="material-icons">square_foot</i></th>
-      <th><i class="material-icons">add_circle_outline</i></th>
-      <th><i class="material-icons">refresh</i></th>
-    </tr>
-  </thead>
   <tbody>
-    {% for record in timestamped %}
+    {% for record in timestamped | reverse %}
     <tr>
       <th scope="row">{{ record.0 }}</th>
       <th scope="row">{{ record.1 | format_price }}</th>

@@ -30,13 +30,26 @@ def show_all_flats(page_num, flats_per_page=20):
                            offers=read_all_flats(flats_per_page, page_num, request.args.get('sort')), pages=pages)
 # TODO fix error page when flat id is incorrect
 
+
+@app.route('/gt/<int:page_num>')
+def show_all_flats_gt(page_num, flats_per_page=20):
+    """Shows all flat records with pagination"""
+    last_page = get_flat_count(oto=False) // flats_per_page + 1
+    if page_num < 1 or page_num > last_page:
+        return abort(404)
+    pages = {'current': page_num, 'last': last_page}
+    return render_template('all_flors_gt.html',
+                           offers=read_all_flats(flats_per_page, page_num, request.args.get('sort'), oto=False), pages=pages)
+
+
 @app.route('/id/<int:flat_id>')
 def show_flat(flat_id):
     """Shows one flat record with given flat_id."""
     record = read_flat(flat_id)
     timestamped = ('scraped_date', 'price', 'price_pm', 'added_date', 'updated_date')
+    pages = {'current': 1, 'last': 1}
     return render_template('one_flor.html',
-                           offers=record, timestamped=zip(*(record[0][ts] for ts in timestamped)))
+                           offers=record, timestamped=zip(*(record[0][ts] for ts in timestamped)), pages=pages)
 
 
 @app.route('/delete/<int:flat_id>')

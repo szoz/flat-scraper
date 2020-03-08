@@ -13,12 +13,11 @@
     <li class="nav-item active">
       <a class="nav-link" href="{{ url_for('show_all_flats', page_num=1) }}">Otodom oferty</a>
     </li>
-    <li class="nav-item">
-      <a class="nav-link" href="{{ url_for('show_all_flats', page_num=1, sort='added') }}">Sortuj po dacie dodania</a>
+    <li class="nav-item active">
+      <a class="nav-link" href="{{ url_for('show_all_flats_gt', page_num=1) }}">Gumtree oferty</a>
     </li>
-    <li class="nav-item">
-      <a class="nav-link" href="{{ url_for('show_all_flats', page_num=1, sort='updated') }}">Sortuj po dacie aktualizacji</a>
-    </li>
+    {% block navbar %}
+    {% endblock %}
   </ul>
 </nav>
   <div class="container">
