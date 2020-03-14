@@ -1,4 +1,5 @@
 from pymongo import MongoClient, DESCENDING
+from pymongo.errors import DuplicateKeyError
 
 client = MongoClient()
 db = client['flat_base']
@@ -16,7 +17,10 @@ def create_flat(data, oto=True):
             }})
         return collection_oto.insert_one(data)
     else:
-        return collection_gt.insert_one(data)
+        try:
+            return collection_gt.insert_one(data)
+        except DuplicateKeyError:
+            return None
 
 
 def read_all_flats(limit=0, page=0, sort='updated', oto=True):

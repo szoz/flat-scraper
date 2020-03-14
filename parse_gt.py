@@ -6,23 +6,38 @@ from scrap_gt import get_html
 
 
 def get_details(html):
-    details = {
-        '_id': html.url.split('/')[-1][3:12],
-        'url': html.url,
-        'characteristics': {char.find('.name', first=True).full_text: char.find('.value', first=True).full_text
-                            for char in html.find('.selMenu', first=True).find('.attribute')},
-        'price': int(html.find('.amount', first=True).full_text.split(u'\xa0')[0]) * 1000,
-        'title': html.find('.myAdTitle', first=True).full_text.replace(u'\xa0', u' '),
-        'scraped_date': date.today().isoformat(),
-        'photos': [[ph.replace('/$_20', '/$_0'), ph.replace('/$_20', '/$_3')]
-                   for ph in loads(html.find('.has-thumbs', first=True).full_text)['large']]
+    try:
+        details = {
+            '_id': html.url.split('/')[-1][3:12],
+            'url': html.url,
+            'price': int(html.find('.amount', first=True).full_text.split(u'\xa0')[0]) * 1000,
+            'title': html.find('.myAdTitle', first=True).full_text.replace(u'\xa0', u' '),
+            'scraped_date': date.today().isoformat(),
+            'photos': [[ph.replace('/$_20', '/$_0'), ph.replace('/$_20', '/$_3')]
+                       for ph in loads(html.find('.has-thumbs', first=True).full_text)['large']]
+        }
+    except AttributeError:
+        return None
+
+    chars = {char.find('.name', first=True).full_text: char.find('.value', first=True).full_text
+             for char in html.find('.selMenu', first=True).find('.attribute')}
+
+    m = int(chars.pop('Wielkość (m2)'))
+
+    characteristics = {
+        'm': f'{m} m²',
+        'rooms_num': chars.pop('Liczba pokoi', '') ,
+        'building_type': chars.pop('Rodzaj nieruchomości', ''),
+        'market': chars.pop('Na sprzedaż przez', '')
     }
 
-    details['m'] = int(details['characteristics'].pop('Wielkość (m2)'))
-    details['price_pm'] = details['price'] // details['m']
-    details['added_date'] = datetime.strptime(details['characteristics'].pop('Data dodania'), '%d/%m/%Y')\
+    details['price_pm'] = details['price'] // m
+    details['added_date'] = datetime.strptime(chars.pop('Data dodania'), '%d/%m/%Y')\
         .date().isoformat()
-    details['address'] = details['characteristics'].pop('Lokalizacja')
+    details['address'] = chars.pop('Lokalizacja', '')
+
+    details['characteristics'] = characteristics
+    details['features'] = [f'{key} - {value}' for key, value in chars.items()]
 
     return details
 
