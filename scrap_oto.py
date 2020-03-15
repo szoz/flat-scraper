@@ -2,6 +2,7 @@ from requests_html import HTMLSession
 import requests
 from urllib import parse
 import re
+from tqdm import tqdm
 
 
 def get_search_url(page=None, **kwargs):
@@ -15,7 +16,7 @@ def get_search_url(page=None, **kwargs):
         'mokotow': 39,
         'ochota': 40,
         'praga_pld': 41,
-        'zoliborz': 53,
+        'zoliborz': 53,  # TODO Usunąć zoliborz
         'wola': 117
     }
     search_params = {
@@ -51,7 +52,7 @@ def get_urls(pages):
     session = HTMLSession()
 
     urls = []
-    for page in range(1, pages + 1):
+    for page in tqdm(range(1, pages + 1), desc='Search URL scraping'):
         r = session.get(get_search_url(page))
         for url in r.html.links:
             if 'oferta' in url:
@@ -70,7 +71,7 @@ def get_ids(urls):
 
     id_pattern = re.compile(r'\s\d{8}\s')
     identifiers = []
-    for url in urls:
+    for url in tqdm(urls, desc='Record IDs scraping'):
         r = session.get(url)
         title = r.html.find('title', first=True).text
         id_num = re.search(id_pattern, title).group(0)[1:-1]
@@ -79,6 +80,7 @@ def get_ids(urls):
 
 
 def get_response(identifier):
+    """TODO Write a docstring"""
     r = requests.get(f'https://www.otodom.pl/frontera/api/item/{identifier}')
     return r.json()
 

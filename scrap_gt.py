@@ -1,6 +1,8 @@
 from requests_html import HTMLSession
 from urllib import parse
 from itertools import product
+from tqdm import trange
+from lxml.etree import ParserError
 
 
 def get_search_url(page=1):
@@ -34,7 +36,7 @@ def get_urls(pages):
     session = HTMLSession()
 
     urls = set()
-    for page in range(1, pages + 1):
+    for page in trange(1, pages + 1, desc='Search URL scraping'):
         for url in get_search_url(page):
             r = session.get(url)
             urls = urls.union(r.html.find('.view', first=True).absolute_links)
@@ -50,5 +52,8 @@ def get_html(url):
     """
     session = HTMLSession()
 
-    r = session.get(url)
-    return r.html
+    try:
+        r = session.get(url)
+        return r.html
+    except ParserError:
+        return None
