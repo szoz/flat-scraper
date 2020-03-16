@@ -8,7 +8,7 @@ from scrap_gt import get_html
 def get_details(html):
     try:
         details = {
-            '_id': html.url.split('/')[-1][3:12],
+            '_id': int(html.url.split('/')[-1][3:12]),
             'url': html.url,
             'price': int(html.find('.amount', first=True).full_text.split(u'\xa0')[0]) * 1000,
             'title': html.find('.myAdTitle', first=True).full_text.replace(u'\xa0', u' '),

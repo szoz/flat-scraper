@@ -39,6 +39,7 @@
   {% endblock %}
 {% endblock %}
 {% block footer %}
+  {% if pages %}
   <nav aria-label="page-pagination">
     <ul class="pagination justify-content-center">
       {% if pages.current == 1 %}
@@ -68,4 +69,5 @@
       {% endif %}
     </ul>
   </nav>
+  {% endif %}
 {% endblock %}

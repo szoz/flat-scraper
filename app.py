@@ -45,11 +45,15 @@ def show_all_flats_gt(page_num, flats_per_page=20):
 @app.route('/id/<int:flat_id>')
 def show_flat(flat_id):
     """Shows one flat record with given flat_id."""
-    record = read_flat(flat_id)
-    timestamped = ('scraped_date', 'price', 'price_pm', 'added_date', 'updated_date')
-    pages = {'current': 1, 'last': 1}
-    return render_template('one_flor.html',
-                           offers=record, timestamped=zip(*(record[0][ts] for ts in timestamped)), pages=pages)
+    if read_flat(flat_id)[0] is not None:
+        record = read_flat(flat_id)
+        timestamped = zip(*(record[0][ts] for ts in ('scraped_date', 'price', 'price_pm', 'added_date', 'updated_date')))
+        return render_template('one_flor.html', offers=record, pages=None, timestamped=timestamped)
+    elif read_flat(flat_id, oto=False)[0] is not None:
+        record = read_flat(flat_id, oto=False)
+        return render_template('all_flors_gt.html', offers=record, pages=None)
+    else:
+        return abort(404)
 
 
 @app.route('/delete/<int:flat_id>')
