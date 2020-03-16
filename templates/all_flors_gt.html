@@ -1,4 +1,15 @@
 {% extends "base.html" %}
+{% block navbar %}
+    <div class="dropdown">
+      <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" onclick={console}>
+        Sortowanie
+      </button>
+      <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+        <a class="dropdown-item" href="{{ url_for('show_all_flats_gt', page_num=1, sort='added') }}">Po dacie dodania</a>
+        <a class="dropdown-item" href="{{ url_for('show_all_flats_gt', page_num=1, sort='updated') }}">Po dacie aktualizacji</a>
+      </div>
+    </div>
+{% endblock %}
 {% block statistics %}
 <table class="table table-borderless">
   <tbody>

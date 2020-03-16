@@ -19,7 +19,7 @@ def index():
     return redirect('/1')
 
 
-@app.route('/<int:page_num>')
+@app.route('/<int:page_num>', methods=['GET', 'POST'])
 def show_all_flats(page_num, flats_per_page=20):
     """Shows all flat records with pagination"""
     last_page = get_flat_count() // flats_per_page + 1
@@ -54,6 +54,12 @@ def show_flat(flat_id):
         return render_template('all_flors_gt.html', offers=record, pages=None)
     else:
         return abort(404)
+
+
+@app.route('/id', methods=['POST'])
+def show_flat_post():
+    """TODO write a docstring"""
+    return redirect(f'/id/{request.form["id"]}')
 
 
 @app.route('/delete/<int:flat_id>')
