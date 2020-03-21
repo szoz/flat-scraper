@@ -1,0 +1,125 @@
+{% extends "base.html" %}
+{% block navbar %}
+  <a class="dropdown-item" href="{{ url_for('show_all_flats_ot', page_num=1, sort='added') }}">
+    Po dacie dodania
+  </a>
+  <a class="dropdown-item" href="{{ url_for('show_all_flats_ot', page_num=1, sort='updated') }}">
+    Po dacie aktualizacji
+  </a>
+{% endblock %}
+
+{% block header %}
+  <a href="{{ url_for('show_flat_ot', flat_id=offer._id) }}"
+     class="btn btn-primary"
+     role="button"
+     target="_blank">
+    {{ offer._id }}
+  </a>
+{% endblock %}
+
+{% block statistics %}
+  <th scope="row">
+    <div class="d-flex">
+      <i class="material-icons mr-2">attach_money</i>{{ offer.price[-1] | format_price }}
+    </div>
+  </th>
+  <th>
+    <div class="d-flex">
+      <i class="material-icons">attach_money</i>
+      <i class="material-icons mr-2">square_foot</i>{{ offer.price_pm[-1] | format_price }}
+    </div>
+  </th>
+  <td>
+    <div class="d-flex">
+      <i class="material-icons mr-2">add_circle_outline</i>{{ offer.added_date[-1] }}
+    </div>
+  </td>
+  <td>
+    <div class="d-flex">
+      <i class="material-icons mr-2">refresh</i>{{ offer.updated_date[-1] }}
+    </div>
+  </td>
+  {% if timestamped %}
+    <table class="table table-sm">
+      <tbody>
+        {% for record in timestamped | reverse %}
+          <tr>
+            <th scope="row">{{ record.0 }}</th>
+            <th scope="row">{{ record.1 | format_price }}</th>
+            <td> {{ record.2 | format_price }}</td>
+            <td> {{ record.3 }}</td>
+            <td> {{ record.4 }}</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  {% endif %}
+{% endblock %}
+{% block footer %}
+  {% if pages %}
+    <nav aria-label="page-pagination">
+      <ul class="pagination justify-content-center">
+        {% if pages.current == 1 %}
+          <li class="page-item disabled">
+            <a class="page-link"
+               href="{{ url_for('show_all_flats_ot', page_num=pages.previous, sort=request.args.get('sort')) }}"
+               tabindex="-1">
+              Poprzednia
+            </a>
+          </li>
+        {% else %}
+          <li class="page-item">
+            <a class="page-link"
+               href="{{ url_for('show_all_flats_ot', page_num=pages.previous, sort=request.args.get('sort')) }}"
+               tabindex="-1">
+              Poprzednia
+            </a>
+          </li>
+          <li class="page-item">
+            <a class="page-link"
+               href="{{ url_for('show_all_flats_ot', page_num=pages.previous, sort=request.args.get('sort')) }}">
+              {{ pages.current - 1 }}
+            </a>
+          </li>
+        {% endif %}
+        {% if pages.last == 1 %}
+          <li class="page-item disabled">
+            <a class="page-link"
+               href="{{ url_for('show_all_flats_ot', page_num=pages.current, sort=request.args['sort']) }}">
+              {{ pages.current }}
+              <span class="sr-only">(current)</span>
+            </a>
+          </li>
+        {% else %}
+          <li class="page-item active">
+            <a class="page-link"
+               href="{{ url_for('show_all_flats_ot', page_num=pages.current, sort=request.args['sort']) }}">
+              {{ pages.current }}
+              <span class="sr-only">(current)</span>
+            </a>
+          </li>
+        {% endif %}
+        {% if pages.current == pages.last %}
+          <li class="page-item disabled">
+            <a class="page-link"
+               href="{{ url_for('show_all_flats_ot', page_num=pages.next, sort=request.args['sort']) }}"
+               tabindex="-1">
+              Następna
+            </a>
+          </li>
+        {% else %}
+          <li class="page-item">
+            <a class="page-link" href="{{ url_for('show_all_flats_ot', page_num=pages.next, sort=request.args['sort']) }}">
+              {{ pages.current + 1 }}
+            </a>
+          </li>
+          <li class="page-item">
+            <a class="page-link" href="{{ url_for('show_all_flats_ot', page_num=pages.next, sort=request.args['sort']) }}">
+              Następna
+            </a>
+          </li>
+        {% endif %}
+      </ul>
+    </nav>
+  {% endif %}
+{% endblock %}

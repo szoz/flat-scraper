@@ -8,14 +8,48 @@
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 </head>
 <body>
+  <nav class="navbar navbar-expand-sm bg-primary navbar-dark justify-content-between">
+    <ul class="navbar-nav">
+      <li class="nav-item active">
+        <a class="nav-link" href="{{ url_for('show_all_flats_ot', page_num=1) }}">Otodom oferty</a>
+      </li>
+      <li class="nav-item active">
+        <a class="nav-link" href="{{ url_for('show_all_flats_gt', page_num=1) }}">Gumtree oferty</a>
+      </li>
+      <li class="dropdown">
+        <button class="btn btn-primary dropdown-toggle"
+                type="button"
+                id="dropdownMenuButton"
+                data-toggle="dropdown"
+                aria-haspopup="true"
+                aria-expanded="false">
+          Sortowanie
+        </button>
+        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+          {% block navbar %}
+          {% endblock %}
+        </div>
+      </li>
+    </ul>
+      <form class="form-inline my-2 my-lg-0" action="{{ url_for('show_flat_post') }}" method="post">
+        <label>
+          <input class="form-control mr-sm-2" type="number" name="id" placeholder="ID">
+        </label>
+        <button class="btn btn-outline my-2 my-sm-0" type="submit">Wyszukaj</button>
+      </form>
+  </nav>
   <div class="container">
     {% for offer in offers %}
       <div class="card m-4">
         <div class="card-header d-flex justify-content-between align-items-center">
+          {% block header scoped %}
+          {% endblock %}
           <h5 class="card-title m-0">
-            <a href="{{ offer.url }}" class="btn btn-primary" role="button" target="_blank">{{ offer._id }}</a>
-            <a href="{{ url_for('show_flat', flat_id=offer._id) }}" target="_blank">{{ offer.title }}</a>
+            <a href="{{ offer.url }}" target="_blank">{{ offer.title }}</a>
           </h5>
+          <a href="{{ url_for('remove_flat', flat_id=offer._id) }}" class="btn btn-outline-danger" role="button">
+            Usuń
+          </a>
         </div>
         <div class="card-body">
           <table class="table table-borderless">
@@ -57,8 +91,14 @@
               </th>
             </tr>
           </table>
-          {% block statistics scoped %}
-          {% endblock %}
+          <table class="table table-borderless">
+            <tbody>
+              <tr>
+                {% block statistics scoped %}
+                {% endblock %}
+              </tr>
+            </tbody>
+          </table>
           <p class="card-text">
             {% for feature in offer.features %}
               <span class="badge badge-secondary">{{ feature }}</span>
@@ -66,10 +106,14 @@
           </p>
           <p class="card-text d-flex">
             <i class="material-icons mr-2">room</i>
-            <a href="https://www.google.com/maps/place/{{ offer.coordinates }}" target="_blank">{{ offer.address }}</a>
+            {% if offer.coordinates %}
+              <a href="https://www.google.com/maps/place/{{ offer.coordinates }}" target="_blank">{{ offer.address }}</a>
+            {% else %}
+              {{ offer.address }}
+            {% endif %}
           </p>
           {% for photo in offer.photos %}
-          <a href="{{ photo.1 }}" target="_blank"><img class="mr-3" src="{{ photo.0 }}" alt="photo"></a>
+            <a href="{{ photo.1 }}" target="_blank"><img class="mr-3" src="{{ photo.0 }}" alt="photo"></a>
           {% endfor %}
         </div>
       </div>
@@ -77,5 +121,17 @@
   </div>
   {% block footer scoped %}
   {% endblock %}
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+          integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+          crossorigin="anonymous">
+  </script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
+          integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+          crossorigin="anonymous">
+  </script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"
+          integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
+          crossorigin="anonymous">
+  </script>
 </body>
 </html>

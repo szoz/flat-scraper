@@ -1,13 +1,43 @@
-from scrap_oto import get_ids, get_urls, get_response
-from parse_oto import parse_response
+from tqdm import tqdm
+from time import sleep
+
+import scrap_ot as so
+import parse_ot as po
+import scrap_gt as sg
+import parse_gt as pg
 from database import create_flat
 
-urls = get_urls(2)
-print('URLs scraped...')
-ids = get_ids(urls)
-print('IDs acquired...')
+SEARCH_PAGES = 2
 
-for fi in ids:
-    resp = get_response(fi)
-    flat = parse_response(resp)
-    create_flat(flat)
+
+def process_oto():
+    """Main function for otodom scraping and storing data in db."""
+    urls = so.get_urls(SEARCH_PAGES)
+    ids = so.get_ids(urls)
+
+    for identifier in tqdm(ids, 'Record data scraping'):
+        resp = so.get_response(identifier)
+        flat = po.parse_response(resp)
+        create_flat(flat)
+
+
+def process_gt():
+    """Main function for gumtree scraping and storing data in db."""
+    urls = sg.get_urls(SEARCH_PAGES)
+    for url in tqdm(urls, 'Record data scraping'):
+        data = sg.get_html(url)
+        try:
+            details = pg.get_details(data)
+            create_flat(details, oto=False)
+        except TypeError:
+            continue
+
+
+if __name__ == '__main__':
+    print('Processing Otodom:')
+    sleep(0.1)
+    process_oto()
+    print('Processing Gumtree:')
+    sleep(0.1)
+    process_gt()
+    print('Processing complete.')
