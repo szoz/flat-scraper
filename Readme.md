@@ -6,6 +6,8 @@ Program contains HTTP scraper for collecting data from Otodom and Gumtree pages 
 Collected data is stored in MongoDB in two separate collections. Flask app is used for representing stored
 flat offer data.
 
+![screenshot](https://github.com/szoz/flat-scraper/raw/master/example.jpg "Card screenshot")
+
 ## Installation
 
 Use the package manager [pipenv](https://pipenv.pypa.io/en/stable/) to install dependencies.
