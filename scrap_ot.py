@@ -16,7 +16,6 @@ def get_search_url(page=None, **kwargs):
         'mokotow': 39,
         'ochota': 40,
         'praga_pld': 41,
-        'zoliborz': 53,  # TODO Usunąć zoliborz
         'wola': 117
     }
     search_params = {
@@ -76,11 +75,16 @@ def get_ids(urls):
         title = r.html.find('title', first=True).text
         id_num = re.search(id_pattern, title).group(0)[1:-1]
         identifiers.append(id_num)
+
     return identifiers
 
 
 def get_response(identifier):
-    """TODO Write a docstring"""
+    """Returns response body from otodom API offer details request.
+
+    :param identifier: Otodom offer identifier.
+    :return: Dict with API response body.
+    """
     r = requests.get(f'https://www.otodom.pl/frontera/api/item/{identifier}')
     return r.json()
 

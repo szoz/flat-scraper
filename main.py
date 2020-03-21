@@ -1,8 +1,8 @@
 from tqdm import tqdm
 from time import sleep
 
-import scrap_oto as so
-import parse_oto as po
+import scrap_ot as so
+import parse_ot as po
 import scrap_gt as sg
 import parse_gt as pg
 from database import create_flat
@@ -40,4 +40,4 @@ if __name__ == '__main__':
     print('Processing Gumtree:')
     sleep(0.1)
     process_gt()
-    input('Proccesing complete. Press enter to exit.')
+    print('Processing complete.')
