@@ -1,6 +1,6 @@
 from flask import Flask, render_template, redirect, abort, request
 
-from database import read_all_flats, read_flat, get_flat_count, delete_flat
+from database import read_all_flats, read_flat, get_flat_count, delete_flat, favorite_flat
 
 app = Flask(__name__)
 
@@ -123,6 +123,19 @@ def remove_flat(flat_id):
     else:
         delete_flat(flat_id, oto=False)
 
+    return '', 204
+
+
+@app.route('/favorite/<int:flat_id>')
+def toggle_favorite_flat(flat_id):
+    """Changes flat offer favorite attribute based on query params.
+
+    :param flat_id: Flat offer ID.
+    :return: HTTP no content acknowledgment.
+    """
+    oto = True if request.args.get('oto') == 'True' else False
+    enable = True if request.args.get('enable') == 'True' else False
+    favorite_flat(flat_id, oto=oto, enable=enable)
     return '', 204
 
 

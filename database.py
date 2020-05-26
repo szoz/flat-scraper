@@ -32,20 +32,21 @@ def create_flat(data, oto=True):
             return None
 
 
-def read_all_flats(limit=0, page=0, sort='updated', oto=True):
+def read_all_flats(limit=0, page=0, sort='updated', oto=True, favorite=False):
     """Reads all flat offer records from otodom or gumtree DB collection.
 
     :param limit: Offer data per page limit.
     :param page: Offer data page number.
     :param sort: Sorting key.
     :param oto: Flag for choosing DB collection.
+    :param favorite: Flag for searching only favorite offers.
     :return: Sorted offers data list.
     """
     skip = limit * (page - 1)
-    if oto:
-        return collection_oto.find(limit=limit, skip=skip).sort(f'{sort}_date', DESCENDING)
-    else:
-        return collection_gt.find(limit=limit, skip=skip).sort(f'{sort}_date', DESCENDING)
+    parameters = {'favorite': True} if favorite else None
+    collection = collection_oto if oto else collection_gt
+
+    return collection.find(filter=parameters, limit=limit, skip=skip).sort(f'{sort}_date', DESCENDING)
 
 
 def get_flat_count(oto=True):
@@ -54,7 +55,9 @@ def get_flat_count(oto=True):
     :param oto: Flag for choosing DB collection.
     :return: Flat offer number.
     """
-    return collection_oto.count() if oto else collection_gt.count()
+    collection = collection_oto if oto else collection_gt
+
+    return collection.count()
 
 
 def read_flat(flat_id, oto=True):
@@ -65,7 +68,9 @@ def read_flat(flat_id, oto=True):
     :return: Flat offer data.
     """
     parameters = {'_id': flat_id}
-    return [collection_oto.find_one(parameters)] if oto else [collection_gt.find_one(parameters)]
+    collection = collection_oto if oto else collection_gt
+
+    return [collection.find_one(parameters)]
 
 
 def delete_flat(flat_id, oto=True):
@@ -75,4 +80,19 @@ def delete_flat(flat_id, oto=True):
     :param oto: Flag for choosing DB collection.
     :return: DB response for deleting flat offer document.
     """
-    return collection_oto.delete_one({'_id': flat_id}) if oto else collection_gt.delete_one({'_id': flat_id})
+    collection = collection_oto if oto else collection_gt
+
+    return collection.delete_one({'_id': flat_id})
+
+
+def favorite_flat(flat_id, oto=True, enable=True):
+    """Changes offer 'favorite' attribute
+
+    :param flat_id: Flat offer ID.
+    :param oto: Flag for choosing DB collection.
+    :param enable: Flag for setting favorite attribute.
+    :return: DB response for deleting flat offer document.
+    """
+    collection = collection_oto if oto else collection_gt
+
+    return collection.update_one({'_id': flat_id}, {'$set': {'favorite': enable}})
