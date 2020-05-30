@@ -16,7 +16,8 @@ def get_details(html):
             'title': html.find('.myAdTitle', first=True).full_text.replace(u'\xa0', u' '),
             'scraped_date': date.today().isoformat(),
             'photos': [[ph.replace('/$_20', '/$_1'), ph.replace('/$_20', '/$_3')]
-                       for ph in loads(html.find('.has-thumbs', first=True).full_text)['large']]
+                       for ph in loads(html.find('.has-thumbs', first=True).full_text)['large']],
+            'favorite': False
         }
     except AttributeError:
         return None

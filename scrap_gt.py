@@ -57,3 +57,7 @@ def get_html(url):
         return r.html
     except ParserError:
         return None
+
+
+if __name__ == '__main__':
+    print(get_urls(pages=2))

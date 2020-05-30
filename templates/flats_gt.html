@@ -11,12 +11,25 @@
 {% endblock %}
 
 {% block header %}
-  <a href="{{ url_for('show_flat_gt', flat_id=offer._id) }}"
-     class="btn btn-primary"
-     role="button"
-     target="_blank">
-    {{ offer._id }}
-  </a>
+  <div class="btn-group" role="group">
+    {% if offer.favorite == true %}
+      <a href="{{ url_for('toggle_favorite_flat', flat_id=offer._id, oto=False, enable=False) }}"
+         class="btn btn-info" role="button">
+        ★
+      </a>
+    {% else %}
+      <a href="{{ url_for('toggle_favorite_flat', flat_id=offer._id, oto=False, enable=True) }}"
+         class="btn btn-outline-info" role="button">
+        ★
+      </a>
+    {% endif %}
+    <a href="{{ url_for('show_flat_gt', flat_id=offer._id) }}"
+       class="btn btn-primary"
+       role="button"
+       target="_blank">
+      {{ offer._id }}
+    </a>
+  </div>
 {% endblock %}
 
 {% block statistics %}
