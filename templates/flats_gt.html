@@ -15,21 +15,24 @@
     {% if offer.favorite == true %}
       <a href="{{ url_for('toggle_favorite_flat', flat_id=offer._id, oto=False, enable=False) }}"
          class="btn btn-info" role="button">
-        ★
+        ♥
       </a>
     {% else %}
       <a href="{{ url_for('toggle_favorite_flat', flat_id=offer._id, oto=False, enable=True) }}"
          class="btn btn-outline-info" role="button">
-        ★
+        ♥
       </a>
     {% endif %}
-    <a href="{{ url_for('show_flat_gt', flat_id=offer._id) }}"
+    <a href="{{ offer.url }}"
        class="btn btn-primary"
        role="button"
        target="_blank">
       {{ offer._id }}
     </a>
   </div>
+  <h5 class="card-title m-0">
+    <a href="{{ url_for('show_flat_gt', flat_id=offer._id)  }}" target="_blank">{{ offer.title }}</a>
+  </h5>
 {% endblock %}
 
 {% block statistics %}

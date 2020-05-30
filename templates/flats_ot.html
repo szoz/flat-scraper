@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+
 {% block navbar %}
   <a class="dropdown-item" href="{{ url_for('show_all_flats_ot', page_num=1, sort='added') }}">
     Po dacie dodania
@@ -11,23 +12,28 @@
 {% block header %}
   <div class="btn-group" role="group">
     {% if offer.favorite == true %}
-      <a href="{{ url_for('toggle_favorite_flat', flat_id=offer._id, oto=True, enable=False) }}"
+      <a href="{{ offer.url }}"
          class="btn btn-info" role="button">
-        ★
+        ♥
       </a>
     {% else %}
       <a href="{{ url_for('toggle_favorite_flat', flat_id=offer._id, oto=True, enable=True) }}"
          class="btn btn-outline-info" role="button">
-        ★
+        ♥
       </a>
     {% endif %}
-    <a href="{{ url_for('show_flat_ot', flat_id=offer._id) }}"
+    <a href="{{ offer.url }}"
        class="btn btn-primary"
        role="button"
        target="_blank">
       {{ offer._id }}
     </a>
   </div>
+  <h5 class="card-title m-0">
+    <a href="{{ url_for('show_flat_ot', flat_id=offer._id) }}" target="_blank">
+      {{ offer.title }}
+    </a>
+  </h5>
 {% endblock %}
 
 {% block statistics %}

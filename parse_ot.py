@@ -22,7 +22,7 @@ def parse_response(resp):
     parsed_resp['address'] = resp['addresses']['pl']
     parsed_resp['coordinates'] = f"{resp['coordinates']['latitude']}+{resp['coordinates']['longitude']}"
     parsed_resp['characteristics'] = {char['key']: char['value_translated'] for char in resp['characteristics']}
-    parsed_resp['photos'] = [(photo['thumbnail'], photo['large']) for photo in resp['photos'].values()]
+    parsed_resp['photos'] = [(photo['small'], photo['large']) for photo in resp['photos'].values()]
     parsed_resp['favorite'] = False
 
     return parsed_resp

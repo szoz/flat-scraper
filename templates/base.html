@@ -40,13 +40,10 @@
   </nav>
   <div class="container">
     {% for offer in offers %}
-      <div class="card m-4">
+      <div class="card bg-light m-4">
         <div class="card-header d-flex justify-content-between align-items-center">
           {% block header scoped %}
           {% endblock %}
-          <h5 class="card-title m-0">
-            <a href="{{ offer.url }}" target="_blank">{{ offer.title }}</a>
-          </h5>
           <a href="{{ url_for('remove_flat', flat_id=offer._id) }}" class="btn btn-outline-danger" role="button">
             Usuń
           </a>
@@ -112,9 +109,7 @@
               {{ offer.address }}
             {% endif %}
           </p>
-          {% for photo in offer.photos %}
-            <a href="{{ photo.1 }}" target="_blank"><img class="mr-3" src="{{ photo.0 }}" alt="photo"></a>
-          {% endfor %}
+          {% for photo in offer.photos %}<a href="{{ photo.1 }}" target="_blank"><img class="img-thumbnail w-25" src="{{ photo.0 }}" alt="photo"></a>{% endfor %}
         </div>
       </div>
     {% endfor %}
