@@ -1,13 +1,18 @@
 {% extends "base.html" %}
 
-{% block navbar %}
-  <a class="dropdown-item"
-     href="{{ url_for('show_all_flats_gt', page_num=1, sort='added') }}">
-    Po dacie dodania</a>
-  <a class="dropdown-item"
-     href="{{ url_for('show_all_flats_gt', page_num=1, sort='updated') }}">
+{% block dropdown %}
+  <a class="dropdown-item" href="{{ url_for('show_all_flats_gt', page_num=1, sort='added') }}">
+    Po dacie dodania
+  </a>
+  <a class="dropdown-item" href="{{ url_for('show_all_flats_gt', page_num=1, sort='updated') }}">
     Po dacie aktualizacji
   </a>
+{% endblock %}
+
+{% block navbar %}
+  <li class="nav-item active">
+    <a class="nav-link" href="{{ url_for('show_all_flats_gt', page_num=1, favorite=True) }}">Ulubione</a>
+  </li>
 {% endblock %}
 
 {% block header %}

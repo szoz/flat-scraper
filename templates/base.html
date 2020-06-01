@@ -26,10 +26,12 @@
           Sortowanie
         </button>
         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-          {% block navbar %}
+          {% block dropdown %}
           {% endblock %}
         </div>
       </li>
+      {% block navbar %}
+      {% endblock %}
     </ul>
       <form class="form-inline my-2 my-lg-0" action="{{ url_for('show_flat_post') }}" method="post">
         <label>

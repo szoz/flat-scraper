@@ -36,10 +36,17 @@ def show_all_flats_ot(page_num, flats_per_page=20):
     if page_num < 1 or page_num > last_page:
         return abort(404)
 
-    pages = {'previous': page_num-1, 'current': page_num, 'next': page_num+1, 'last': last_page}
-    return render_template('flats_ot.html',
-                           offers=read_all_flats(flats_per_page, page_num, request.args.get('sort')),
-                           pages=pages)
+    if request.args.get('favorite') == 'True':
+        favorite = True
+        flats_per_page = 0
+        pages = None
+    else:
+        favorite = False
+        pages = {'previous': page_num-1, 'current': page_num, 'next': page_num+1, 'last': last_page}
+
+    return render_template('flats_ot.html', pages=pages,
+                           offers=read_all_flats(flats_per_page, page_num, request.args.get('sort'), oto=True,
+                                                 favorite=favorite))
 
 
 @app.route('/gt/<int:page_num>')
@@ -54,10 +61,17 @@ def show_all_flats_gt(page_num, flats_per_page=20):
     if page_num < 1 or page_num > last_page:
         return abort(404)
 
-    pages = {'previous': page_num-1, 'current': page_num, 'next': page_num+1, 'last': last_page}
-    return render_template('flats_gt.html',
-                           offers=read_all_flats(flats_per_page, page_num, request.args.get('sort'), oto=False),
-                           pages=pages)
+    if request.args.get('favorite') == 'True':
+        favorite = True
+        flats_per_page = 0
+        pages = None
+    else:
+        favorite = False
+        pages = {'previous': page_num-1, 'current': page_num, 'next': page_num+1, 'last': last_page}
+
+    return render_template('flats_gt.html', pages=pages,
+                           offers=read_all_flats(flats_per_page, page_num, request.args.get('sort'),
+                                                 oto=False, favorite=favorite))
 
 
 @app.route('/ot/id/<int:flat_id>')
